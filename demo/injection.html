@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../node_modules/slim-js/Slim.min.js"></script>
+</head>
+<body>
+    <x-x></x-x>
+    <script type="module">
+        import { Component } from '../dist/index.js'
+
+        class Injected {
+          foo () {
+            return 'bar'
+          }
+        }
+
+        Slim.tag('x-x', '', class X extends Component {
+          // noinspection JSUnusedGlobalSymbols
+          static get injections () {
+              return {
+                prop1: 'string',
+                prop2: () => 'abcd',
+                prop3: Injected
+              }
+            }
+
+            onCreated () {
+              console.log(this.prop1, this.prop2, this.prop3.foo())
+            }
+        });
+    </script>
+</body>
+</html>

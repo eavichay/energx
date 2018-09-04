@@ -1,1 +1,3 @@
-export * from './lib/number';
+
+import './lib/initial-injections'
+export { Component } from './lib/component'
