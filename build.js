@@ -1,7 +1,4 @@
 const fs = require('fs');
-const watch = require('node-watch');
-const { execSync } = require('child_process');
-const StaticServer = require('static-server');
 
 const walker = function(dir, fn) {
   const files = fs.readdirSync(dir);
@@ -10,7 +7,7 @@ const walker = function(dir, fn) {
       walker(dir + '/' + file + '/', fn);
     } else {
       if (file.endsWith('.js')) {
-        console.log('testing file: ' + dir + file);
+        // console.log('testing file: ' + dir + file);
         fn(dir + '/' + file);
       }
     }
@@ -18,7 +15,6 @@ const walker = function(dir, fn) {
 };
 
 const run = () => {
-  execSync('npm run compile', { stdio: [0, 1, 2] });
   walker('./dist', (filePath) => {
     let content = fs.readFileSync(filePath).toString('utf-8');
     let wasModified = false;
@@ -28,40 +24,34 @@ const run = () => {
       if (match.index === regex.lastIndex) {
         regex.lastIndex++;
       }
-      const importPath = match[1];
-      const libName = match[1];
+      let libName = match[1];
+
+      if (!libName) continue;
+
       let replacement;
-      if (importPath.endsWith('.ts')) {
-        replacement = importPath.slice(0, libName.lastIndexOf('.ts')) + '.js'
-      } else if (!importPath.endsWith('.js')) {
-        replacement = importPath + '.js';
+
+      if (!libName.startsWith('.')) {
+        libName = '/node_modules/' + libName;
       }
-      console.log('\tFound statement:', libName, '>', replacement);
+
+      if (libName.endsWith('.ts')) {
+        replacement = libName.slice(0, libName.lastIndexOf('.ts')) + '.js'
+      } else if (!libName.endsWith('.js')) {
+        replacement = libName + '.js';
+      }
+      // console.log('\tFound statement:', libName, '>', replacement);
       content = content.replace(match[1], replacement);
       wasModified = true;
     }
     if (wasModified) {
-      console.log(content);
+      // console.log(content);
       fs.writeFileSync(filePath, content);
     } else {
-      console.log('(Unmodified)')
+      // console.log('(Unmodified)')
     }
   });
+  console.log('Conversion to .js complete');
 };
 
-watch('./src', { recursive: true }, () => {
-  run();
-});
-
+console.log('Waiting for conversion...');
 run();
-
-const server = new StaticServer({
-  rootPath: './',
-  port: '8080',
-  cors: '*',
-  followSymlink: true
-});
-
-server.start(() => {
-  console.log('server started');
-});

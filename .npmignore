@@ -11,6 +11,7 @@ tslint.json
 .cache
 build/docs
 dist/docs
+dist/demo
 **/*.spec.*
 coverage
 .nyc_output

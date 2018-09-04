@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "watch": {
+    "compile": "src/**/*.*"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node build.js",
-    "compile": "tsc"
+    "dev": "npm-watch compile",
+    "compile": "rm -rf dist && tsc && node build.js"
   },
   "author": "",
   "license": "MIT",
@@ -15,7 +17,9 @@
   },
   "devDependencies": {
     "node-watch": "^0.5.8",
+    "npm-watch": "^0.3.0",
     "static-server": "^2.2.1",
+    "tsc-watch": "^1.0.27",
     "typescript": "^3.0.3"
   }
 }

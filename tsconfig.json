@@ -6,9 +6,9 @@
     "outDir": "dist",
     "rootDir": "src",
     "lib": ["es2017", "dom", "es6", "DOM.Iterable", "ScriptHost"],
-    "moduleResolution": "classic",
+    "moduleResolution": "node",
     "module": "esnext"
   },
   "include": ["src"],
-  "exclude": ["node_modules"]
+  "exclude": ["dist", "node_modules"]
 }
