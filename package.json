@@ -7,8 +7,9 @@
     "compile": "src/**/*.*"
   },
   "scripts": {
+    "trash": "rm -rf dist > /dev/null",
     "dev": "npm-watch compile",
-    "compile": "rm -rf dist && tsc && node build.js"
+    "compile": "npm run trash && tsc && node build.js"
   },
   "author": "",
   "license": "MIT",

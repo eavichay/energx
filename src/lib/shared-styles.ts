@@ -4,6 +4,6 @@ export default function sharedStyles(value) {
       value = [value]
     }
     clazz.sharedStyles = document.createElement('style')
-    clazz.sharedStyles.textContent = value.map(url => `@import url('${url})'`).join('; ')
+    clazz.sharedStyles.textContent = value.map(url => `@import url(${url})`).join('; ')
   }
 }

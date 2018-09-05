@@ -3,5 +3,7 @@ export interface Employee {
   address : string,
   pictureUrl : string,
   phone: string,
-  email: string
+  email: string,
+  id: string,
+  isRegistered?: boolean
 }

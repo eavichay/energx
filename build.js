@@ -25,10 +25,11 @@ const run = () => {
         regex.lastIndex++;
       }
       let libName = match[1];
+      console.log(libName);
 
       if (!libName) continue;
 
-      let replacement;
+      let replacement = libName;
 
       if (!libName.startsWith('.')) {
         libName = '/node_modules/' + libName;
